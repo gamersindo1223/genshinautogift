@@ -44,12 +44,14 @@ async function login(code){
     }catch(err){
         throw new Error(`Login Credentials is not A Valid JSON!`)
     }
-    let url = `https://sg-hk4e-api.hoyoverse.com/common/apicdkey/api/webExchangeCdkey?uid=${account_id}&region=os_asia&lang=en&cdkey=${code}&game_biz=hk4e_global`
+    cookie.uid.foreach(data =>{
+    let url = `https://sg-hk4e-api.hoyoverse.com/common/apicdkey/api/webExchangeCdkey?uid=${data.uid}&region=os_asia&lang=en&cdkey=${code}&game_biz=hk4e_global`
     let data = await axios.get(url, {
         headers : {
             "Cookie" : `cookie_token=${cookie.cookie_token}; account_id=${cookie.account_id}`
         }
     })
+})
     return data.data
 }
 
