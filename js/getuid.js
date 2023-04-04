@@ -1,5 +1,6 @@
-let dataarray = [];
 function getuid() {
+let dataarray = [];
+
   var xhr = new XMLHttpRequest();
   xhr.withCredentials = true;
 
