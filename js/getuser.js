@@ -13,7 +13,7 @@ function generateDs()
     const date = new Date();
     const t = Math.floor(date.getTime() / 1000);
     let r = Math.random().toString(36).substring(2, 8);
-    const h = createHash("md5").update(`salt=6s25p5ox5y14umn1p61aqyyvbvvl3lrt&t=${t}&r=${r}`).digest("hex");
+    const h = CryotoJS.MD5(`salt=6s25p5ox5y14umn1p61aqyyvbvvl3lrt&t=${t}&r=${r}`).digest("hex");
     return `${t},${r},${h}`;
 }
 
@@ -31,8 +31,6 @@ async function doRequest(cookie, uid)
             "DS": generateDs()
         }
     });
-
     let res = await req.json();
-
     console.log(res);
 }
