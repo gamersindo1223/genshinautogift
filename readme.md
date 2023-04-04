@@ -9,24 +9,16 @@ Go to https://genshin.hoyoverse.com/en/gift
 > After that login into your mihoyo account
 - After that open the Developer console and paste the code below according to your account server
 
-<details>
-  <summary>Epcot Center</summary>
+
 
 ```js
-
-let cookie = document.cookie ; cookie = cookie.split('; ')
-let data = []
-let dataobj = {}
-cookie.forEach(docdata => {
-if(docdata.startsWith(`account_id`) || docdata.startsWith('cookie_token')){
-    docdata = docdata.split("=")
-    dataobj[`"${docdata[0]}"`] = docdata[1]
-}
-});
-console.log(dataobj)
+//Initialize MakeJson
+var script = document.createElement('script');script.type = 'text/javascript';script.src = 'https://cdn.jsdelivr.net/gh/gamersindo1223/genshinautogift@latest/js/makejson.min.js';document.head.appendChild(script);
+//Run make json
+setTimeout(() =>{
+await run()
+}, 500)
 ```
-</details>
-<br><br>
 After that go to 
 Go to https://github.com/YOUR_USERNAME/YOUR_REPO/settings/variables/actions
 
