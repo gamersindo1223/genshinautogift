@@ -15,7 +15,7 @@ Go to https://genshin.hoyoverse.com/en/gift
 //Initialize MakeJson
 var script = document.createElement('script');script.type = 'text/javascript';script.src = 'https://cdn.jsdelivr.net/gh/gamersindo1223/genshinautogift@latest/js/makejson.min.js';document.head.appendChild(script);
 //Run make json
-setTimeout(() =>{
+setTimeout(async() =>{
 await run()
 }, 500)
 ```
