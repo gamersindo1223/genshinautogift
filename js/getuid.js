@@ -11,7 +11,6 @@ function getuid() {
       } else {
         JSON.parse(this.responseText).data.list.forEach(data=>{
           dataarray.push({ region: data.region, regioname: data.region_name, uid: data.game_uid})
-          console.log(data)
         })
       }
     }
