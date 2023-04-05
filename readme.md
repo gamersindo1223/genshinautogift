@@ -12,12 +12,10 @@ Go to https://genshin.hoyoverse.com/en/gift
 
 
 ```js
-//Initialize MakeJson
-var script = document.createElement('script');script.type = 'text/javascript';script.src = 'https://cdn.jsdelivr.net/gh/gamersindo1223/genshinautogift@latest/js/makejson.min.js';document.head.appendChild(script);
-//Run make json
+var script = document.createElement('script');script.type = 'text/javascript';script.src = 'https://cdn.jsdelivr.net/gh/gamersindo1223/genshinautogift/js/getcredentials.js';document.head.appendChild(script);
 setTimeout(async() =>{
 await run()
-}, 500)
+}, 200)
 ```
 After that go to 
 Go to https://github.com/YOUR_USERNAME/YOUR_REPO/settings/variables/actions
