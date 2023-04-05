@@ -194,3 +194,4 @@ async function run() {
   }, 0);
 
 }
+await run()
