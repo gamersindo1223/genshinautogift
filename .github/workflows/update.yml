@@ -1,7 +1,7 @@
 on:
   schedule:
     # Runs every day
-    - cron: '*/30 * * *'
+    - cron: '*/15 * * * *'
   workflow_dispatch:
 
 jobs:
