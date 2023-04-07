@@ -1,13 +1,19 @@
-name: "genshinautogift"
-author: "moonLGH"
-description: "Redeem the newset Genshin Impact Promotional codes!"
+name: "Get codes (genshinautogift)"
+author: "MoonLGH & gamersindo1223"
+description: "Update codes"
+
+inputs:
+    gh_token:
+        description: "GitHub access token with Repo scope"
+        default: ${{ github.token }}
+        required: true
 
 runs:
     using: "composite"
     steps:
         - uses: actions/checkout@v3
-        - name: cloning genshinautogift
-          run: git clone https://github.com/MoonLGH/genshinautogift
+        - name: cloning code checker
+          run: git clone -b getcode https://github.com/gamersindo1223/genshinautogift/tree/getcode
           shell: bash
         - name: Set Node.js 18
           uses: actions/setup-node@v3
@@ -21,5 +27,5 @@ runs:
           working-directory: ./genshinautogift
           run: node index.js
           shell: bash
-          env: 
-              login_data: ${{ vars.login_data }}
+          env:
+              gh_token: ${{ inputs.gh_token }}

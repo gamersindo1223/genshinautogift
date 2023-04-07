@@ -1,76 +1,34 @@
-require("dotenv").config()
-const axios = require("axios")
-const {JSDOM} = require("jsdom")
-let currentList = require("./data/current.json")
-let sleep = require('util').promisify(setTimeout)
-
-async function getNewCode(){
-    const data = await axios.get("https://www.gensh.in/events/promotion-codes")
-    const dom = new JSDOM(data.data)
-    let list = dom.window.document.querySelectorAll("div.promocode-row > div:nth-child(5) > span")
-    let array = (Array.apply(null, list)).map(ele => ele.textContent)
-
-    const dataWiki = await axios.get("https://genshin-impact.fandom.com/wiki/Promotional_Codes")
-    const domWiki = new JSDOM(dataWiki.data)
-    let listWiki = domWiki.window.document.querySelectorAll("#mw-content-text > div.mw-parser-output > table > tbody > tr > td:nth-child(1)")
-    let arrayWiki = (Array.apply(null, listWiki)).map(ele => ele.textContent.replaceAll(/ *\[[^\]]*]/,"").replace("\n","").replaceAll(/ *\([^)]*\) */g, ""))
-    arrayWiki = arrayWiki.filter(ele => !ele.spaces())
-    return [...array, ...arrayWiki].remdup()
+const axios = require('axios');
+const cheerio = require('cheerio');
+const korefile = require('korefile');
+const fs = require('fs')
+const currentcodes = require('./active_code.json')
+function containsLowercase(str) {
+  return /[a-z]/.test(str);
 }
-
-async function main() {
-    let newList = await getNewCode()
-    let diff = newList.filter(ele => !currentList.includes(ele))
-    newList = [...currentList,...diff]
-    if(diff.length > 0){
-        require("fs").writeFileSync("./data/current.json", JSON.stringify(newList))
-        for(let i = 0; i < diff.length; i++){
-            let code = diff[i]
-            let data = await login(code)
-            console.log(`${code} : ${JSON.stringify(data)}`)
-            await sleep(10000)
-        }
-    } else {
-        console.log("No new code")
-    }
-
-}
-
-async function login(code){
-    let cookie = process.env.login_data
-    if(cookie === ("" || undefined || null )) throw new Error(`Login Credentials is Empty!`)
-    try{
-        JSON.parse(cookie)
-    }catch(err){
-        throw new Error(`Login Credentials is not A Valid JSON!`)
-    }
-    cookie.uid.foreach(async data =>{
-    let url = `https://sg-hk4e-api.hoyoverse.com/common/apicdkey/api/webExchangeCdkey?uid=${data.uid}&region=os_asia&lang=en&cdkey=${code}&game_biz=hk4e_global`
-    let data = await axios.get(url, {
-        headers : {
-            "Cookie" : `cookie_token=${cookie.cookie_token}; account_id=${cookie.account_id}`
-        }
+ async function getcodes() { 
+  let array= [] 
+  axios.get('https://genshin-impact.fandom.com/wiki/Promotional_Code')
+  .then(response => {
+    const $ = cheerio.load(response.data);
+    const table = $('#mw-content-text > div.mw-parser-output > table > tbody')
+    table.children().each(async(index, element) =>{
+      const tds = $(element).find("td");       
+      const code = $(tds[0]).text().trim().trimEnd().trimStart();
+      const server = $(tds[1]).text().trim().trimEnd().trimStart();
+      const rewards = $(tds[2]).text().trim().trimEnd().trimStart();
+      const duration = $(tds[3])
+      const checkduration = duration.attr('style')
+      if(checkduration === `background-color:rgb(153,255,153,0.5)` && !containsLowercase(code)){
+      array.push({ region: server, code: code})
+      }
+      //console.log(`\ncode: ${code}\nserver: ${server}\nrewards: ${rewards}\nduration: ${duration.find("br").replaceWith("\n").end().text().trim().trimEnd().trimStart()}`)
     })
+  })
+  .catch(error => console.log(error)) 
+  await new Promise((resolve, reject) => setTimeout(resolve, 2400));                        
+  return Promise.resolve(array)
+  } 
+getcodes().then(x =>{
+  console.log(x)
 })
-    return data.data
-}
-
-main()
-
-
-String.prototype.replaceAll = function(search, replacement) {
-    return this.replace(new RegExp(search, 'g'), replacement);
-};
-
-String.prototype.spaces = function() {
-    if(this.indexOf(' ') >= 0){
-        return true
-    }
-    return false
-}
-
-Array.prototype.remdup = function () {
-    let s = new Set(this);
-    let it = s.values();
-    return Array.from(it);
-}
