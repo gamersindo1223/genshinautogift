@@ -1,12 +1,12 @@
 on:
   schedule:
     # Runs every day
-    - cron: '*/30 * * * *'
+    - cron: '*/30 * * *'
   workflow_dispatch:
 
 jobs:
-  check-codes:
-    name: update codes
+  update-codes:
+    name: update
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -28,12 +28,12 @@ jobs:
           cd main
           node index.js
         shell: bash
-        - name: update active_code.json
+      - name: update active_codes.json
         run: |
           cd main
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          git add active_current.json
-          git commit -m "updated active_current.json"
+          git add active_codes.json
+          git commit -m "updated active_codes.json"
           git push
         shell: bash
