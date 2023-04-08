@@ -4,13 +4,7 @@ const cheerio = require("cheerio");
 const chalk = require("chalk");
 const git = require("korefile");
 const fs = require("fs");
-const currentcodes = axios
-  .get(
-    "https://raw.githubusercontent.com/gamersindo1223/genshinautogift-fetchcodes/main/active_code.json"
-  )
-  .then((response) => {
-    response.data;
-  });
+const currentcodes = require("./active_code.json")
 function containsLowercase(str) {
   return /[a-z]/.test(str);
 }
