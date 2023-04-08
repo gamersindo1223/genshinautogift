@@ -41,15 +41,11 @@ async function run() {
     $("html").html(`<h4>Loading JS Parser</h4>`);
     await getuid().then((uid) => {
         let cookie = document.cookie;
-
         let dataobj = {};
-
         if (!cookie.includes(`account_id`) && !cookie.includes(`cookie_token`)) {
             alert(`Login First!`);
-
             location.reload();
         }
-
         cookie = cookie.split("; ");
 
         cookie.forEach((docdata) => {
@@ -64,10 +60,9 @@ async function run() {
         dataobj[`uid`] = uid;
         setTimeout(() => {
             var Str =
-                '<!DOCTYPE HTML><html><head></head><body style = "text-align:center;">' +
-                "<h4 >Copy This and follow the next instruction on the github repo!</h4><p>" +
-                JSON.stringify(dataobj, null, 3) +
-                "</p></body>  </html>";
+            '<!DOCTYPE html><html lang="en"><head><link rel="stylesheet" href="style.css" /><title>Copy The cookie</title></head><body><p id="title">' +'This website will parse your mihoyo cookie <br/> Into A Json for' +'<a href="https://github.com/MoonLGH/genshinautogift">genshinautogift</a></p><div id="main" class="main"><p id="Parseresult"> ' + JSON.stringify(dataobj, null, 3) + '</p></div></body></html>' +
+            "<style>@import url('https://fonts.googleapis.com/css2?family=Lobster+Two:wght@700&display=swap'); .main{margin: 25px;width: 350px;height: 200px;margin: 0 auto;}#title {text-align: center; font-size: 24px; font-family: Jua}</style>"
+
             console.log(uid.length);
             $("html").html(Str);
         }, 200);
