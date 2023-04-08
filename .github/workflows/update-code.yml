@@ -1,0 +1,43 @@
+on:
+  schedule:
+    # Runs every day
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+jobs:
+  update-codes:
+    name: update
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          ref: fetch-codes
+          path: fetch-codes
+      - name: Set Node.js 18
+        uses: actions/setup-node@v3
+        with:
+            node-version: 18
+      - name: Install dependencies
+        run: |
+          cd main
+          npm i
+        shell: bash
+      - name: Run the script
+        run: |
+          cd main
+          node index.js
+        shell: bash
+        env:
+          GHT_TOKEN: ${{ github.token }}
+      - name: update active_codes.json
+        run: |
+          ls
+          cd main
+          ls
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git add active_code.json
+          git commit -m "updated active_code.json"
+          git push
+        shell: bash
