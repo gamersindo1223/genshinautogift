@@ -12,8 +12,8 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
         with:
-          ref: main
-          path: main
+          ref: fetch-codes
+          path: fetch-codes
       - name: Set Node.js 18
         uses: actions/setup-node@v3
         with:
