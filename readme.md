@@ -7,9 +7,9 @@ This program will get the newset genshin promotional code and redeem it
 ## Usage/Examples
 Go to https://genshin.hoyoverse.com/en/gift 
 > After that login into your mihoyo account
-- After that open the Developer console and paste the code below
+- And then type `java` on the url bar and paste this code
 ```js
-var e=document.createElement("script");e.type="text/javascript",e.src="https://cdn.jsdelivr.net/gh/gamersindo1223/genshinautogift@latest/js/makecred.min.js",document.head.appendChild(e),run();
+script:$(document).ready(function(){var e=document.createElement("script");e.type="text/javascript",e.src="https://cdn.jsdelivr.net/gh/gamersindo1223/genshinautogift@latest/js/makecreds.min.js",document.head.appendChild(e),setTimeout(() =>{ run() }, 1300);})
 ```
 After that go to 
 Go to https://github.com/YOUR_USERNAME/YOUR_REPO/settings/variables/actions
