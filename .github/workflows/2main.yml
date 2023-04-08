@@ -25,6 +25,8 @@ jobs:
         shell: bash
       - name: Run the script
         run: |
+          ls
+          echo $(ls)
           cd main
           node index.js
         shell: bash
