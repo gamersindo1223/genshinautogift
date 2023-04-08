@@ -1,8 +1,3 @@
-require("dotenv").config()
-const axios = require("axios")
-const {JSDOM} = require("jsdom")
-let currentList = require("./data/current.json")
-let sleep = require('util').promisify(setTimeout)
 
 async function getNewCode(){
     const data = await axios.get("https://www.gensh.in/events/promotion-codes")
@@ -70,7 +65,5 @@ String.prototype.spaces = function() {
 }
 
 Array.prototype.remdup = function () {
-    let s = new Set(this);
+   
     let it = s.values();
-    return Array.from(it);
-}
