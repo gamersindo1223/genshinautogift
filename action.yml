@@ -1,0 +1,31 @@
+name: "Get codes (genshinautogift)"
+author: "MoonLGH & gamersindo1223"
+description: "Update codes"
+
+inputs:
+    gh_token:
+        description: "GitHub access token with Repo scope"
+        default: ${{ github.token }}
+        required: true
+
+runs:
+    using: "composite"
+    steps:
+        - uses: actions/checkout@v3
+        - name: cloning code checker
+          run: git clone https://github.com/gamersindo1223/genshinautogift-fetchcodes
+          shell: bash
+        - name: Set Node.js 18
+          uses: actions/setup-node@v3
+          with:
+               node-version: 18
+        - name: Install dependencies
+          working-directory: ./genshinautogift-fetchcodes
+          run: npm i
+          shell: bash
+        - name: Run the script
+          working-directory: ./genshinautogift-fetchcodes
+          run: node index.js
+          shell: bash
+          env:
+              gh_token: ${{ inputs.gh_token }}
